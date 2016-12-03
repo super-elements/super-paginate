@@ -1,0 +1,122 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+ `<super-paginate>` is used for pagination  .
+
+Example:
+
+    <super-paginate></super-paginate>
+ In this we can set the totalRows we want in a page/screen
+
+Example:
+
+    <super-paginate totalRows='3'>
+    </super-paginate>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="super-paginate">
+  <template>
+    <style>
+    </style>
+    <table>
+    <tfoot>
+      <tr>
+        <th colspan="5">
+          <button class="demo-button" id="prev">Prev</button>
+          <input id="page" type="number" min="1"  count="{{count}}" total-row="{{totatRow}}" value="1" required="">
+          /{{totalPage}}
+          <button class="demo-button" id="next">Next</button>
+         </th>
+       </tr>
+     </tfoot>
+   </table>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'super-paginate',
+      properties: {
+        // It is used to calculate the no of entries in database.
+        count: {
+          type: Number,
+          reflectToAttribute: true,
+          value: '1',
+          observer: '_checkCount'
+        },
+        // It is used to set the no of rows we want in a page.
+        totalRow: {
+          type: Number,
+          value: '',
+          reflectToAttribute: true
+          // observer: '_checkPage1'
+        },
+        // It is used to calculate the totalPages created after getting the values of count and totalRows.
+        totalPage: {
+          type: Number,
+          reflectToAttribute: true,
+          value: '1' ,
+        }
+      },
+      _checkCount: function () {
+        var self = this;
+          setTimeout(() => {
+          if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
+        var pageno;
+        console.log('self.count1', self.count);
+        console.log('self.totalRows1', self.totalRow);
+        pageno = self.count/self.totalRow;
+        self.totalPage = Math.round(pageno);
+        self.fire('pagecount', { });
+      } else if(self.totalPage == undefined){
+        document.getElementById('page').visibility = hidden ;
+      }
+    }, 4000);
+
+      },
+
+      ready: function() {
+        var self = this;
+        setTimeout(() => {
+        document.getElementById('prev').addEventListener('click', function(e) {
+        self.fire('previous', { });
+        var value1 = document.getElementById('page')
+        var prevvalue = value1.value;
+        if(prevvalue > 1){
+        prevvalue = prevvalue - 1
+        value1.value = prevvalue
+        console.log('clicked on previous', value1.value);
+      }
+     });
+     document.getElementById('next').addEventListener('click', function(e) {
+      self.fire('next', { });
+      var value2 = document.getElementById('page')
+      console.log('value2', value2.value);
+      var nextvalue = parseInt(value2.value);
+      if(nextvalue < self.totalPage) {
+      var test  = nextvalue + 1;
+      value2.value = test;
+      console.log('clicked on next', value2.value)
+    }
+   });
+ }, 3000)
+  },
+  attached: function() {
+  },
+  detached: function() {
+  },
+});
+</script>
+</dom-module>
