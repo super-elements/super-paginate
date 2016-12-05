@@ -35,10 +35,10 @@ Example:
     <tfoot>
       <tr>
         <th colspan="5">
-          <button class="demo-button" id="prev">Prev</button>
-          <input id="page" type="number" min="1"  count="{{count}}" total-row="{{totatRow}}" value="1" required="">
+          <button class="demo-button" id="superPaginatePrevious">Prev</button>
+          <input id="pageCountInput" type="number" min="1"  count="{{count}}" total-row="{{totatRow}}" value="1" required="">
           /{{totalPage}}
-          <button class="demo-button" id="next">Next</button>
+          <button class="demo-button" id="superPaginateNext">Next</button>
          </th>
        </tr>
      </tfoot>
@@ -51,72 +51,64 @@ Example:
       properties: {
         // It is used to calculate the no of entries in database.
         count: {
-          type: Number,
+          type:String,
           reflectToAttribute: true,
           value: '1',
           observer: '_checkCount'
         },
         // It is used to set the no of rows we want in a page.
         totalRow: {
-          type: Number,
+          type: String,
           value: '',
           reflectToAttribute: true
-          // observer: '_checkPage1'
         },
         // It is used to calculate the totalPages created after getting the values of count and totalRows.
         totalPage: {
-          type: Number,
+          type: String,
           reflectToAttribute: true,
           value: '1' ,
+        },
+        currentPage: {
+          type: String,
+          reflectToAttribute: true,
+          value: '1'
         }
       },
       _checkCount: function () {
         var self = this;
-          setTimeout(() => {
-          if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
-        var pageno;
-        console.log('self.count1', self.count);
-        console.log('self.totalRows1', self.totalRow);
-        pageno = self.count/self.totalRow;
-        self.totalPage = Math.round(pageno);
-        self.fire('pagecount', { });
-      } else if(self.totalPage == undefined){
-        document.getElementById('page').visibility = hidden ;
-      }
-    }, 4000);
-
+        if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
+          var pageno;
+          pageno = self.count/self.totalRow;
+          self.totalPage = Math.round(pageno);
+          self.fire('pagecount', { });
+        }
       },
 
       ready: function() {
         var self = this;
-        setTimeout(() => {
-        document.getElementById('prev').addEventListener('click', function(e) {
+        self.$.superPaginatePrevious.addEventListener('click', function(e) {
         self.fire('previous', { });
-        var value1 = document.getElementById('page')
-        var prevvalue = value1.value;
-        if(prevvalue > 1){
-        prevvalue = prevvalue - 1
-        value1.value = prevvalue
-        console.log('clicked on previous', value1.value);
+        var value1 = self.$.pageCountInput;
+        self.currentPage = value1.value;
+        if(self.currentPage> 1){
+        self.currentPage= self.currentPage - 1
+        value1.value = self.currentPage
       }
      });
-     document.getElementById('next').addEventListener('click', function(e) {
+    self.$.superPaginateNext.addEventListener('click', function(e) {
       self.fire('next', { });
-      var value2 = document.getElementById('page')
-      console.log('value2', value2.value);
-      var nextvalue = parseInt(value2.value);
-      if(nextvalue < self.totalPage) {
-      var test  = nextvalue + 1;
-      value2.value = test;
-      console.log('clicked on next', value2.value)
-    }
-   });
- }, 3000)
+      var value2 = self.$.pageCountInput;
+      self.currentPage = parseInt(value2.value);
+      if(self.currentPage < self.totalPage) {
+        self.currentPage  = self.currentPage + 1;
+        value2.value = self.currentPage;
+      }
+    });
   },
-  attached: function() {
-  },
-  detached: function() {
-  },
+  // attached: function() {
+  // },
+  // detached: function() {
+  // },
 });
 </script>
 </dom-module>
