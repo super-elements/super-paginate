@@ -53,7 +53,7 @@ Example:
     }
     input.inputnumber {
       height: 4vh;
-      text-align: center;
+      width: 25px;
       margin-left: 11px;
       margin-right: 7px;
     }
@@ -114,6 +114,7 @@ Example:
         self.$.superPaginatePrevious.addEventListener('click', function(e) {
         self.fire('previous', { });
         var value1 = self.$.pageCountInput;
+        console.log('value1', value1);
         self.currentPage = value1.value;
         if(self.currentPage> 1){
         self.currentPage= self.currentPage - 1
