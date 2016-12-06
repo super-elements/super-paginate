@@ -10,6 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../polymer/polymer.html">
 
+<link rel="import" href="../paper-button/paper-button.html">
+
+<link rel="import" href="../paper-input/paper-input.html">
+
 <!--
  `<super-paginate>` is used for pagination  .
 
@@ -30,20 +34,41 @@ Example:
 <dom-module id="super-paginate">
   <template>
     <style>
+    div.paginatestyling {
+      display: flex;
+      flex-direction: row;
+      justify-content:flex-start;
+    }
+    paper-button.nextButtonStyling {
+      background-color: #b61f38;
+      height: 5vh;
+      font-family: 'Roboto', 'Noto', sans-serif;
+      color: white;
+    }
+    paper-button.previousButtonStyling {
+      background-color:  #b61f38;
+      font-family: 'Roboto', 'Noto', sans-serif;
+      height: 5vh;
+      color: white;
+    }
+    input.inputnumber {
+      height: 4vh;
+      text-align: center;
+      margin-left: 11px;
+      margin-right: 7px;
+    }
+    span.spanpaginate {
+      align-self: center;
+    }
     </style>
-    <table>
-    <tfoot>
-      <tr>
-        <th colspan="5">
-          <button class="demo-button" id="superPaginatePrevious">Prev</button>
-          <input id="pageCountInput" type="number" min="1"  count="{{count}}" total-row="{{totatRow}}" value="1" required="">
-          /{{totalPage}}
-          <button class="demo-button" id="superPaginateNext">Next</button>
-         </th>
-       </tr>
-     </tfoot>
-   </table>
-  </template>
+    <div class="paginatestyling">
+      <paper-button id="superPaginatePrevious" class="previousButtonStyling"> Previous </paper-button>
+      <input id="pageCountInput" class="inputnumber" type="number" min="1"  count="{{count}}" total-row="{{totatRow}}" value="1" required="" readonly="">
+      <span class="spanpaginate"> /{{totalPage}} </span>
+      <paper-button id="superPaginateNext" class="nextButtonStyling"> Next </paper-button>
+
+      </div>
+    </template>
 
   <script>
     Polymer({
@@ -89,6 +114,7 @@ Example:
         self.$.superPaginatePrevious.addEventListener('click', function(e) {
         self.fire('previous', { });
         var value1 = self.$.pageCountInput;
+        console.log('value1', value1);
         self.currentPage = value1.value;
         if(self.currentPage> 1){
         self.currentPage= self.currentPage - 1
