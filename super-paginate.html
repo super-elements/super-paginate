@@ -96,9 +96,16 @@ Example:
         currentPage: {
           type: String,
           reflectToAttribute: true,
-          value: '1'
+          value: '1',
+          observer: '_setCurrentPage'
         }
       },
+
+      _setCurrentPage: function(){
+        var self = this;
+        self.$.pageCountInput.value = self.currentPage;
+      },
+
       _checkCount: function () {
         var self = this;
         if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
@@ -112,29 +119,25 @@ Example:
       ready: function() {
         var self = this;
         self.$.superPaginatePrevious.addEventListener('click', function(e) {
-        self.fire('previous', { });
-        var value1 = self.$.pageCountInput;
-        console.log('value1', value1);
-        self.currentPage = value1.value;
-        if(self.currentPage> 1){
-        self.currentPage= self.currentPage - 1
-        value1.value = self.currentPage
-      }
-     });
-    self.$.superPaginateNext.addEventListener('click', function(e) {
-      self.fire('next', { });
-      var value2 = self.$.pageCountInput;
-      self.currentPage = parseInt(value2.value);
-      if(self.currentPage < self.totalPage) {
-        self.currentPage  = self.currentPage + 1;
-        value2.value = self.currentPage;
-      }
-    });
+          self.fire('previous', { });
+          var value1 = self.$.pageCountInput;
+          console.log('value1', value1);
+          self.currentPage = value1.value;
+          if(self.currentPage> 1){
+            self.currentPage= self.currentPage - 1
+            value1.value = self.currentPage
+          }
+        });
+        self.$.superPaginateNext.addEventListener('click', function(e) {
+          self.fire('next', { });
+          var value2 = self.$.pageCountInput;
+          self.currentPage = parseInt(value2.value);
+          if(self.currentPage < self.totalPage) {
+            self.currentPage  = self.currentPage + 1;
+            value2.value = self.currentPage;
+          }
+        });
   },
-  // attached: function() {
-  // },
-  // detached: function() {
-  // },
 });
 </script>
 </dom-module>
