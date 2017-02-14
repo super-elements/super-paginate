@@ -1,0 +1,26 @@
+{
+  "name": "super-paginate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaurav21r/super-paginate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaurav21r/super-paginate/issues"
+  },
+  "homepage": "https://github.com/gaurav21r/super-paginate#readme",
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "eslint-plugin-html": "^2.0.0"
+  }
+}
