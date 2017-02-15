@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-input/paper-input.html"/>
 <!--
  `<super-paginate>` is used for pagination . This element can be used for any type of tables.
-  User have to define the number of rows they want. It automatically Calculate the number of pages
+  User have to define the number of rows they want. It automatically Calculates the number of pages
   are there according to the entries in database and number of rows.
   User have to fires two event previous and next to go to the next or previous pages.
 
@@ -20,21 +20,25 @@ Example:
     <super-paginate></super-paginate>
 
 Example:
-To set the totalRows we want in a page/screen
+
+  To set the totalRows we want in a page/screen
 
     <super-paginate totalRows='3'>
     </super-paginate>
 
-Fires previous and next event
-Example
-<super-paginate id = "testpagination"></super-paginate>
-document.getElementById('testpagination').addEventListener('previous', function(){
+Example:
 
-});
-document.getElementById('testpagination').addEventListener('next', function(){
+  Fires previous and next event for the functioning of previous and next button.
+    <super-paginate id = "testpagination"></super-paginate>
 
-});
+    document.getElementById('testpagination').addEventListener('previous', function(){
+    });
+
+    document.getElementById('testpagination').addEventListener('next', function(){
+    });
+
 @demo demo/index.html
+@hero hero.svg
 -->
 
 <dom-module id="super-paginate">
@@ -66,6 +70,7 @@ document.getElementById('testpagination').addEventListener('next', function(){
     span.spanpaginate {
       align-self: center;
     }
+    
     </style>
     <div class="paginatestyling">
       <paper-button id="superPaginatePrevious" class="previousButtonStyling"> Previous </paper-button>
@@ -81,7 +86,7 @@ document.getElementById('testpagination').addEventListener('next', function(){
       is: 'super-paginate',
       properties: {
         /**
-        *The count is used to calculate the number of data store in database.
+        *The count is used to calculate the number of data store in a database.
         */
         count: {
           type:String,
@@ -90,7 +95,7 @@ document.getElementById('testpagination').addEventListener('next', function(){
           observer: '_checkCount'
         },
         /**
-        *The totalRow represents the number of rows require in a table
+        *The totalRow represents the number of rows require in the table
         */
         totalRow: {
           type: String,
@@ -116,13 +121,13 @@ document.getElementById('testpagination').addEventListener('next', function(){
         }
       },
 
-      // this observer fires when there is a change in a page
+      // This observer fires when there is a change in a page. It calculates the value of a current page.
       _setCurrentPage: function(){
         var self = this;
         self.$.pageCountInput.value = self.currentPage;
       },
 
-      // this Observer fires when there is a change in a count . And it calculates the totalPage.
+      // This Observer fires when there is a change in a count. Count check the number of data store in the database. It calculates the totalPage.
       _checkCount: function () {
         var self = this;
         if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
@@ -136,7 +141,7 @@ document.getElementById('testpagination').addEventListener('next', function(){
       ready: function() {
         var self = this;
         self.$.superPaginatePrevious.addEventListener('click', function(e) {
-          // Custom event 'previous' will fire when user click on `Previous Button`
+          // Fires custom event 'previous'. This event is used for the functioning of `previous button`.
           self.fire('previous', { });
           // var value1 = self.$.pageCountInput;
           self.currentPage = self.$.pageCountInput.value;
@@ -146,7 +151,7 @@ document.getElementById('testpagination').addEventListener('next', function(){
           }
         });
         self.$.superPaginateNext.addEventListener('click', function(e) {
-          // Custom event 'next' will fire when user click on `Next Button`
+          // Fires custom event 'next'. This event is use to handle the functioning of `next button`.
           self.fire('next', { });
           var value2 = self.$.pageCountInput;
           self.currentPage = parseInt(value2.value);
