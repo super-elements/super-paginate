@@ -10,14 +10,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title></title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"/>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
     <!-- Step 1: import the element to test -->
-    <link rel="import" href="../super-paginate.html">
+    <link rel="import" href="../super-paginate.html"/>
   </head>
   <body>
 
@@ -39,31 +40,60 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           myEl = fixture('super-paginate-fixture');
         });
 
-        test('defines the "author" property', function() {
-          assert.equal(myEl.author.name, 'Dimitri Glazkov');
-          assert.equal(myEl.author.image, 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg');
+        test('checking the values of all the property', function() {
+          myEl.setAttribute('total-row', "10");
+          myEl.setAttribute('count',"100");
+          assert.equal(myEl.totalPage,10);
         });
 
-        test('says hello', function() {
-          assert.equal(myEl.sayHello(), 'super-paginate says, Hello World!');
-
-          var greetings = myEl.sayHello('greetings Earthlings');
-          assert.equal(greetings, 'super-paginate says, greetings Earthlings');
+        test('checking the exact values of the totalrow property', function() {
+          myEl.setAttribute('totalrow',"100");
+          assert.equal(myEl.totalRow,'');
         });
 
-        test('fires lasers', function(done) {
-          myEl.addEventListener('super-paginate-lasers', function(event) {
-            assert.equal(event.detail.sound, 'Pew pew!');
-            done();
-          });
-          myEl.fireLasers();
+        test('checking the default values for currentPage property', function() {
+          myEl.setAttribute('currentPage',"1");
+          assert.equal(myEl.currentPage,1);
         });
 
-        test('distributed children', function() {
-          var els = myEl.getContentChildren();
-          assert.equal(els.length, 1, 'one distributed node');
-          assert.equal(els[0], myEl.querySelector('h2'), 'content distributed correctly');
+
+
+
+        test('checking the values of all the property for very large values', function() {
+          myEl.setAttribute('total-row', "1000000000000000");
+          myEl.setAttribute('count',"1000000000000000");
+          assert.equal(myEl.totalPage,1);
         });
+
+
+
+        test('checking the exact values of the totalPage not defined property', function() {
+          myEl.setAttribute('totalPage','');
+
+          assert.equal(myEl.totalPage,'NaN');
+        });
+
+
+
+
+        test('set currentPage',function(){
+          Polymer.dom(myEl.root).querySelector('input').value ='56';
+          myEl.currentPage='56';
+          assert.equal(myEl.currentPage,'56');
+        });
+
+
+
+
+
+                // test('checking the exact values of the currentPage property that can be arbitrary', function() {
+                //   myEl.setAttribute('currentPage',"234");
+                //   assert.equal(myEl.currentPage,234);
+                // });
+
+
+
+
 
       });
     </script>
