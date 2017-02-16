@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-input/paper-input.html"/>
 <!--
  `<super-paginate>` is used for pagination . This element can be used for any type of tables.
+  You can easily go to next page and previous page by using two fire events `next` and `previous`.
   User have to define the number of rows they want. It automatically Calculates the number of pages
   are there according to the entries in database and number of rows.
   User have to fires two event previous and next to go to the next or previous pages.
@@ -70,7 +71,7 @@ Example:
     span.spanpaginate {
       align-self: center;
     }
-    
+
     </style>
     <div class="paginatestyling">
       <paper-button id="superPaginatePrevious" class="previousButtonStyling"> Previous </paper-button>
@@ -127,7 +128,11 @@ Example:
         self.$.pageCountInput.value = self.currentPage;
       },
 
-      // This Observer fires when there is a change in a count. Count check the number of data store in the database. It calculates the totalPage.
+      /**
+       *  This Observer fires when there is a change in a count.
+       *  Count check the number of data store in the database.
+       *  It calculates the totalPage according to data store in database and number of rows .
+       */
       _checkCount: function () {
         var self = this;
         if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
