@@ -1,31 +1,41 @@
-<!--
-@license
+<!-- @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt -->
 
-<link rel="import" href="../polymer/polymer.html">
-
-<link rel="import" href="../paper-button/paper-button.html">
-
-<link rel="import" href="../paper-input/paper-input.html">
-
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="bower_components/paper-button/paper-button.html"/>
+<link rel="import" href="../paper-input/paper-input.html"/>
 <!--
- `<super-paginate>` is used for pagination  .
+ `<super-paginate>` is used for pagination . This element can be used for any type of tables.
+  You can easily go to next page and previous page by using two fire events `next` and `previous`.
+  User have to define the number of rows they want. It automatically Calculates the number of pages
+  are there according to the entries in database and number of rows.
+  User have to fires two event previous and next to go to the next or previous pages.
 
 Example:
 
     <super-paginate></super-paginate>
- In this we can set the totalRows we want in a page/screen
 
 Example:
 
-    <super-paginate totalRows='3'>
+  To set the totalRows we want in a page/screen
+
+    <super-paginate id = "testpagination" totalRows='3'>
     </super-paginate>
+
+Example:
+
+  Fires previous and next event for the functioning of previous and next button.
+
+    document.getElementById('testpagination').addEventListener('previous', function(){
+    });
+
+    document.getElementById('testpagination').addEventListener('next', function(){
+    });
 
 @demo demo/index.html
 @hero hero.svg
@@ -60,10 +70,11 @@ Example:
     span.spanpaginate {
       align-self: center;
     }
+
     </style>
     <div class="paginatestyling">
       <paper-button id="superPaginatePrevious" class="previousButtonStyling"> Previous </paper-button>
-      <input id="pageCountInput" class="inputnumber" type="number" min="1"  count="{{count}}" total-row="{{totatRow}}" value="1" required="" readonly="">
+      <input id="pageCountInput" class="inputnumber" type="number" min="1"  count="{{count}}" total-row="{{totalRow}}" value="1" required="" readonly=""/>
       <span class="spanpaginate"> /{{totalPage}} </span>
       <paper-button id="superPaginateNext" class="nextButtonStyling"> Next </paper-button>
 
@@ -74,25 +85,34 @@ Example:
     Polymer({
       is: 'super-paginate',
       properties: {
-        // It is used to calculate the no of entries in database.
+        /**
+        *The count is used to calculate the number of data store in a database.
+        */
         count: {
           type:String,
           reflectToAttribute: true,
           value: '1',
           observer: '_checkCount'
         },
-        // It is used to set the no of rows we want in a page.
+        /**
+        *The totalRow represents the number of rows require in the table
+        */
         totalRow: {
           type: String,
           value: '',
           reflectToAttribute: true
         },
-        // It is used to calculate the totalPages created after getting the values of count and totalRows.
+        /**
+        *The Number of Pages in the Table.
+        */
         totalPage: {
           type: String,
           reflectToAttribute: true,
           value: '1' ,
         },
+        /**
+        * The currentPage shows the status of the Page. By default its value is 1.
+        */
         currentPage: {
           type: String,
           reflectToAttribute: true,
@@ -101,17 +121,23 @@ Example:
         }
       },
 
+      // This observer fires when there is a change in a page. It calculates the value of a current page.
       _setCurrentPage: function(){
         var self = this;
         self.$.pageCountInput.value = self.currentPage;
       },
 
+      /**
+       *  This Observer fires when there is a change in a count.
+       *  Count check the number of data store in the database.
+       *  It calculates the totalPage according to data store in database and number of rows .
+       */
       _checkCount: function () {
         var self = this;
         if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
-          var pageno;
-          pageno = self.count/self.totalRow;
+          var pageno = self.count/self.totalRow;
           self.totalPage = Math.round(pageno);
+          // after calculating totalPage fire pagecount event.
           self.fire('pagecount', { });
         }
       },
@@ -119,16 +145,17 @@ Example:
       ready: function() {
         var self = this;
         self.$.superPaginatePrevious.addEventListener('click', function(e) {
+          // Fires custom event 'previous'. This event is used for the functioning of `previous button`.
           self.fire('previous', { });
-          var value1 = self.$.pageCountInput;
-          console.log('value1', value1);
-          self.currentPage = value1.value;
+          // var value1 = self.$.pageCountInput;
+          self.currentPage = self.$.pageCountInput.value;
           if(self.currentPage> 1){
             self.currentPage= self.currentPage - 1
             value1.value = self.currentPage
           }
         });
         self.$.superPaginateNext.addEventListener('click', function(e) {
+          // Fires custom event 'next'. This event is use to handle the functioning of `next button`.
           self.fire('next', { });
           var value2 = self.$.pageCountInput;
           self.currentPage = parseInt(value2.value);
