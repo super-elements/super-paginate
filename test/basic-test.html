@@ -40,26 +40,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           myEl = fixture('super-paginate-fixture');
         });
 
-        test('test case to check the value of the totalPage  property', function() {
+        test('check the value of the totalPage', function() {
           myEl.setAttribute('total-row', "10");
           myEl.setAttribute('count',"100");
           assert.equal(myEl.totalPage,10);
         });
 
-        test('test case to check the exact value of the totalrow property', function() {
+        test('check the value of the totalrow', function() {
           myEl.setAttribute('totalrow',"100");
           assert.equal(myEl.totalRow,'');
         });
 
-        test('test case to check the default value for currentPage property', function() {
+        test('check the default value for currentPage', function() {
           myEl.setAttribute('currentPage',"1");
           assert.equal(myEl.currentPage,1);
+        });
+        test('check the value of the count', function() {
+
+          myEl.setAttribute('count',"100");
+          assert.equal(myEl.count,100);
         });
 
 
 
 
-        test('test case to check  the values of all the property for very large values', function() {
+        test('check totalpage for very large values', function() {
           myEl.setAttribute('total-row', "1000000000000000");
           myEl.setAttribute('count',"1000000000000000");
           assert.equal(myEl.totalPage,1);
@@ -67,7 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-        test('test case to check the value of the totalPage if  not defined ', function() {
+        test('check totalPage if  not defined ', function() {
           myEl.setAttribute('totalPage','');
           assert.equal(myEl.totalPage,'NaN');
         });
@@ -75,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-        test('test case to set the value of currentPage property',function(){
+        test('set the value of currentPage',function(){
           Polymer.dom(myEl.root).querySelector('input').value ='56';
           assert.equal(myEl.currentPage,'56');
 
