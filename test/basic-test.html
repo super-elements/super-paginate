@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <html>
   <head>
-    <title></title>
+    <title>  super-paginate</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"/>
 
@@ -40,18 +40,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           myEl = fixture('super-paginate-fixture');
         });
 
-        test('checking the values of all the property', function() {
+        test('test case to check the value of the totalPage  property', function() {
           myEl.setAttribute('total-row', "10");
           myEl.setAttribute('count',"100");
           assert.equal(myEl.totalPage,10);
         });
 
-        test('checking the exact values of the totalrow property', function() {
+        test('test case to check the exact value of the totalrow property', function() {
           myEl.setAttribute('totalrow',"100");
           assert.equal(myEl.totalRow,'');
         });
 
-        test('checking the default values for currentPage property', function() {
+        test('test case to check the default value for currentPage property', function() {
           myEl.setAttribute('currentPage',"1");
           assert.equal(myEl.currentPage,1);
         });
@@ -59,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-        test('checking the values of all the property for very large values', function() {
+        test('test case to check  the values of all the property for very large values', function() {
           myEl.setAttribute('total-row', "1000000000000000");
           myEl.setAttribute('count',"1000000000000000");
           assert.equal(myEl.totalPage,1);
@@ -67,34 +67,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-        test('checking the exact values of the totalPage not defined property', function() {
+        test('test case to check the value of the totalPage if  not defined ', function() {
           myEl.setAttribute('totalPage','');
-
           assert.equal(myEl.totalPage,'NaN');
         });
 
 
 
 
-        test('set currentPage',function(){
+        test('test case to set the value of currentPage property',function(){
           Polymer.dom(myEl.root).querySelector('input').value ='56';
           myEl.currentPage='56';
           assert.equal(myEl.currentPage,'56');
+
         });
-
-
-
-
-
-                // test('checking the exact values of the currentPage property that can be arbitrary', function() {
-                //   myEl.setAttribute('currentPage',"234");
-                //   assert.equal(myEl.currentPage,234);
-                // });
-
-
-
-
-
       });
     </script>
 
