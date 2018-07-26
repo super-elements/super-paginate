@@ -52,8 +52,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
 
         test('check the default value for currentPage', function() {
-          myEl.setAttribute('currentPage',"1");
-          assert.equal(myEl.currentPage,1);
+          Polymer.dom(myEl.root).querySelector('input').value ='56';
+          assert.equal(myEl.currentPage,56);
         });
         test('check the value of the count', function() {
 

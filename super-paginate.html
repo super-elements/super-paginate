@@ -7,7 +7,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt -->
 
 <link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="bower_components/paper-button/paper-button.html"/>
+<link rel="import" href="../paper-button/paper-button.html"/>
 <link rel="import" href="../paper-input/paper-input.html"/>
 <!--
  `<super-paginate>` is used for pagination . This element can be used for any type of tables.
@@ -22,9 +22,9 @@ Example:
 
 Example:
 
-  To set the totalRows we want in a page/screen
+  To set the totalRowss we want in a page/screen
 
-    <super-paginate id = "testpagination" totalRows='3'>
+    <super-paginate id = "testpagination" totalRowss='3'>
     </super-paginate>
 
 Example:
@@ -43,7 +43,14 @@ Example:
 
 <dom-module id="super-paginate">
   <template>
-    <style>
+    <div class="paginatestyling">
+      <paper-button id="superPaginatePrevious" class="previousButtonStyling"> Previous </paper-button>
+      <input id="pageCountInput" class="inputnumber" type="number" min="1"  count="{{count}}" total-rows="{{totalRows}}" value="1" required="" readonly=""/>
+      <span class="spanpaginate"> /{{totalPages}} </span>
+      <paper-button id="superPaginateNext" class="nextButtonStyling"> Next </paper-button>
+    </div>
+  </template>
+  <style>
     div.paginatestyling {
       display: flex;
       flex-direction: row;
@@ -61,43 +68,27 @@ Example:
       height: 5vh;
       color: white;
     }
-    input.inputnumber {
-      height: 4vh;
-      width: 25px;
-      margin-left: 11px;
-      margin-right: 7px;
-    }
-    span.spanpaginate {
-      align-self: center;
-    }
+  </style>
 
-    </style>
-    <div class="paginatestyling">
-      <paper-button id="superPaginatePrevious" class="previousButtonStyling"> Previous </paper-button>
-      <input id="pageCountInput" class="inputnumber" type="number" min="1"  count="{{count}}" total-row="{{totalRow}}" value="1" required="" readonly=""/>
-      <span class="spanpaginate"> /{{totalPage}} </span>
-      <paper-button id="superPaginateNext" class="nextButtonStyling"> Next </paper-button>
 
-      </div>
-    </template>
 
   <script>
     Polymer({
       is: 'super-paginate',
       properties: {
         /**
-        *The count is used to calculate the number of data store in a database.
+        * The total number of data items.
         */
         count: {
-          type:String,
+          type: Number,
           reflectToAttribute: true,
-          value: '1',
+          value: 1,
           observer: '_checkCount'
         },
         /**
-        *The totalRow represents the number of rows require in the table
+        * The totalRows represents the number of rows require in the table
         */
-        totalRow: {
+        totalRows: {
           type: String,
           value: '',
           reflectToAttribute: true
@@ -105,7 +96,7 @@ Example:
         /**
         *The Number of Pages in the Table.
         */
-        totalPage: {
+        totalPages: {
           type: String,
           reflectToAttribute: true,
           value: '1' ,
@@ -130,14 +121,14 @@ Example:
       /**
        *  This Observer fires when there is a change in a count.
        *  Count check the number of data store in the database.
-       *  It calculates the totalPage according to data store in database and number of rows .
+       *  It calculates the totalPages according to data store in database and number of rows .
        */
       _checkCount: function () {
         var self = this;
-        if(self.totalPage !== '' || self.totalPage !== undefined || self.totalPage !== null) {
-          var pageno = self.count/self.totalRow;
-          self.totalPage = Math.round(pageno);
-          // after calculating totalPage fire pagecount event.
+        if(self.totalPages !== '' || self.totalPages !== undefined || self.totalPages !== null) {
+          var pageno = self.count/self.totalRows;
+          self.totalPages = Math.round(pageno);
+          // after calculating totalPages fire pagecount event.
           self.fire('pagecount', { });
         }
       },
@@ -147,21 +138,18 @@ Example:
         self.$.superPaginatePrevious.addEventListener('click', function(e) {
           // Fires custom event 'previous'. This event is used for the functioning of `previous button`.
           self.fire('previous', { });
-          // var value1 = self.$.pageCountInput;
           self.currentPage = self.$.pageCountInput.value;
           if(self.currentPage> 1){
             self.currentPage= self.currentPage - 1
-            value1.value = self.currentPage
           }
         });
+
         self.$.superPaginateNext.addEventListener('click', function(e) {
           // Fires custom event 'next'. This event is use to handle the functioning of `next button`.
           self.fire('next', { });
-          var value2 = self.$.pageCountInput;
           self.currentPage = parseInt(value2.value);
-          if(self.currentPage < self.totalPage) {
+          if(self.currentPage < self.totalPages) {
             self.currentPage  = self.currentPage + 1;
-            value2.value = self.currentPage;
           }
         });
   },
